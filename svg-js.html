@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>Manipulando SVG com JS</title>
+    <link rel="stylesheet" href="css/main.css" />
+  </head>
+  <body>
+    <svg class="desenho" width="500" height="500" viewBox="0 0 500 500"></svg>
+
+    <button id="create">Criar círculos!</button>
+
+    <style>
+      svg.desenho circle {
+        transition: 0.3s all;
+      }
+    </style>
+
+    <script>
+      var desenho = document.querySelector(".desenho");
+      var svgNS = "http://www.w3.org/2000/svg";
+
+      function createCircle() {
+        for (var i = 0; ; i++) {
+          var randomX = Math.floor(Math.random() * 500); //raio x dentro do svg
+          var randomY = Math.floor(Math.random() * 500); //raio Y dentro do svg
+          var randomT = Math.floor(Math.random() * 60); //tamanho random da bolinha
+          var randomAN = Math.floor(Math.random() * 360); //tamanho random da bolinha
+          //função que retorna um número hexadecimal aleatório entre 0 e 255 (FF):
+          function Hx() {
+            return parseInt(Math.random() * 255).toString(16);
+          }
+          //Função para retornar o código completo da cor, com 3 números aleatórios:
+          function CorAleat() {
+            return "#" + Hx() + Hx() + Hx();
+          }
+
+          var nova_cor = CorAleat();
+          var myCircle = document.createElementNS(svgNS, "circle");
+          myCircle.setAttributeNS(null, "r", randomT);
+          myCircle.setAttributeNS(null, "cx", randomX);
+          myCircle.setAttributeNS(null, "cy", randomY);
+          myCircle.setAttributeNS(null, "fill", nova_cor);
+          myCircle.setAttributeNS(null, "class", "circle");
+
+          // codigo para colocar animação smil no svg
+          /*  var myAnimation = document.createElementNS(svgNS, "animate");
+          myAnimation.setAttributeNS(null, "attributeName", "x");
+          myAnimation.setAttributeNS(null, "from", "0");
+          myAnimation.setAttributeNS(null, "to", "425");
+          myAnimation.setAttributeNS(null, "dur", "10s");
+          myAnimation.setAttribute("xlink:href", ".circle"); */
+
+          desenho.appendChild(myCircle);
+          // desenho.appendChild(myAnimation);
+
+          if (i > 100) break;
+          // more statements
+        }
+      }
+      var btn = document.querySelector("#create");
+
+      btn.addEventListener("click", createCircle);
+    </script>
+  </body>
+</html>
